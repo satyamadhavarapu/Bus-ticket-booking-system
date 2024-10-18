@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Details</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            background-image: url("images/amy-chen-lIp5q8s0e7s-unsplash.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #33A852;
+            margin-bottom: 10px;
+        }
+
+        .passenger {
+            margin-bottom: 20px;
+        }
+
+        .passenger label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        button.gender {
+            padding: 8px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button.male.selected {
+            background-color: #e57373; /* Red color for selected Male */
+            color: white;
+        }
+
+        button.female.selected {
+            background-color: #90caf9; /* Light blue for selected Female */
+            color: white;
+        }
+
+        button[type="submit"] {
+            background-color: #33A852;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Passenger Details</h2>
+    <form id="passenger-form" action="payment.php" method="POST">
+        <!-- Dynamic passenger inputs will be added here -->
+    </form>
+    <button type="submit" form="passenger-form">SUBMIT</button>
+</div>
+
+<script>
+    // Function to get query parameters
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Retrieve selected seats from the query parameters
+    const seats = getQueryParam('seats');
+    if (seats) {
+        const seatNumbers = seats.split(',');
+        const passengerForm = document.getElementById('passenger-form');
+
+        // Create input fields for each selected seat
+        seatNumbers.forEach(seat => {
+            const div = document.createElement('div');
+            div.className = 'passenger';
+
+            div.innerHTML = `
+                <label for="passenger-${seat}-name">Passenger for Seat ${seat}:</label>
+                <input type="text" id="passenger-${seat}-name" name="passenger-${seat}-name" required placeholder="Enter name" />
+                
+                <label for="passenger-${seat}-age">Age:</label>
+                <input type="number" id="passenger-${seat}-age" name="passenger-${seat}-age" required placeholder="Age" />
+
+                <label>Gender:</label>
+                <button type="button" class="gender male" onclick="selectGender('${seat}', 'male', this)">Male</button>
+                <button type="button" class="gender female" onclick="selectGender('${seat}', 'female', this)">Female</button>
+                <input type="hidden" id="passenger-${seat}-gender" name="passenger-${seat}-gender" />
+            `;
+            passengerForm.appendChild(div);
+        });
+    } else {
+        // Handle the case where no seats are selected
+        document.body.innerHTML = "<h2>No seats selected!</h2>";
+    }
+
+    // Function to select gender
+    function selectGender(seat, gender, button) {
+        // Reset other gender buttons in the same passenger div
+        const parentDiv = button.parentElement;
+        const maleButton = parentDiv.querySelector('.male');
+        const femaleButton = parentDiv.querySelector('.female');
+
+        maleButton.classList.remove('selected');
+        femaleButton.classList.remove('selected');
+
+        // Select the clicked gender
+        button.classList.add('selected');
+        document.getElementById(`passenger-${seat}-gender`).value = gender;
+    }
+</script>
+</body>
+</html>

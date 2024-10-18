@@ -1,0 +1,228 @@
+/* styles.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header .logo {
+    width: 50px;
+    vertical-align: middle;
+}
+
+header h1 {
+    display: inline;
+    margin: 0;
+    padding-left: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+nav ul li a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.home-content {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.description {
+    width: 50%;
+    padding-right: 20px;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form fieldset {
+    border: none;
+    margin-bottom: 10px;
+}
+
+form fieldset legend {
+    font-weight: bold;
+}
+
+form fieldset label {
+    margin-right: 10px;
+}
+
+form button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #575757;
+}
+
+#seat-selection-form .bus-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#seat-selection-form .seat {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#seat-selection-form .seat.available:hover {
+    background-color: #a6a6a6;
+}
+
+#seat-selection-form .seat.selected {
+    background-color: #333;
+    color: #fff;
+}
+
+.summary {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.summary h2 {
+    margin: 0;
+}
+
+summary p {
+    margin: 5px 0;
+}
+
+/* Login Form */
+#login-section {
+    width: 80%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#login-form {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#login-form input {
+    width: 90%;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+.button-container {
+    display: flex;                  /* Use flexbox for centering */
+    justify-content: center;        /* Center horizontally */
+    align-items: center;            /* Center vertically */
+    margin-top: 20px;              /* Space above the button */
+}
+
+.red-button {
+    background-color: #FF4C4C;      /* Bright red background */
+    color: white;                   /* White text */
+    padding: 15px 30px;            /* Padding for the button */
+    border: none;                   /* No border */
+    border-radius: 8px;            /* Rounded corners */
+    text-decoration: none;          /* No underline */
+    font-size: 18px;                /* Larger font size */
+    transition: background-color 0.3s ease; /* Transition effect */
+    position: relative;             /* Position for shadow */
+    box-shadow: 0 4px 15px rgba(255, 76, 76, 0.5); /* Shadow effect */
+}
+
+.red-button:hover {
+    background-color: #D43A3A;     /* Darker red on hover */
+}
+
+/* Unique box effect */
+.button-container::before {
+    content: '';                    /* Create an empty pseudo-element */
+    position: absolute;             /* Positioning for the box */
+    top: -10px;                    /* Position above the button */
+    left: -10px;                   /* Position to the left of the button */
+    right: -10px;                  /* Position to the right of the button */
+    bottom: -10px;                 /* Position below the button */
+    background-color: rgba(255, 76, 76, 0.2); /* Light red box background */
+    border-radius: 12px;           /* Rounded corners for the box */
+    z-index: -1;                   /* Place behind the button */
+}

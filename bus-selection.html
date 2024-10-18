@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Bus</title>
+    <link rel="stylesheet" href="bus-selection.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #bus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bus-block {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+        }
+
+        .bus-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bus-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .timings {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #cost-summary {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Select Your Bus</h1>
+    </header>
+    <main>
+        <form id="bus-selection-form" action="javascript:void(0);" method="GET">
+            <label for="origin">From:</label>
+            <select id="origin" name="origin">
+                <!-- City Options -->
+                <option value="delhi">Delhi</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="kolkata">Kolkata</option>
+                <option value="chennai">Chennai</option>
+                <option value="bengaluru">Bengaluru</option>
+                <option value="hyderabad">Hyderabad</option>
+                <option value="ahmedabad">Ahmedabad</option>
+                <option value="pune">Pune</option>
+                <option value="jaipur">Jaipur</option>
+                <option value="lucknow">Lucknow</option>
+                <option value="kanpur">Kanpur</option>
+                <option value="nagpur">Nagpur</option>
+                <option value="patna">Patna</option>
+                <option value="bhopal">Bhopal</option>
+                <option value="agra">Agra</option>
+                <option value="kochi">Kochi</option>
+                <option value="coimbatore">Coimbatore</option>
+                <option value="vizag">Visakhapatnam</option>
+                <option value="varanasi">Varanasi</option>
+                <option value="surat">Surat</option>
+                <option value="rajahmundry">Rajahmundry</option>
+                <option value="kateru">Kateru</option>
+                <option value="kolamuru">Kolamuru</option>
+            </select>
+
+            <label for="destination">To:</label>
+            <select id="destination" name="destination">
+                <!-- City Options -->
+                <option value="delhi">Delhi</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="kolkata">Kolkata</option>
+                <option value="chennai">Chennai</option>
+                <option value="bengaluru">Bengaluru</option>
+                <option value="hyderabad">Hyderabad</option>
+                <option value="ahmedabad">Ahmedabad</option>
+                <option value="pune">Pune</option>
+                <option value="jaipur">Jaipur</option>
+                <option value="lucknow">Lucknow</option>
+                <option value="kanpur">Kanpur</option>
+                <option value="nagpur">Nagpur</option>
+                <option value="patna">Patna</option>
+                <option value="bhopal">Bhopal</option>
+                <option value="agra">Agra</option>
+                <option value="kochi">Kochi</option>
+                <option value="coimbatore">Coimbatore</option>
+                <option value="vizag">Visakhapatnam</option>
+                <option value="varanasi">Varanasi</option>
+                <option value="surat">Surat</option>
+                <option value="rajahmundry">Rajahmundry</option>
+                <option value="kateru">Kateru</option>
+                <option value="kolamuru">Kolamuru</option>
+            </select>
+
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" required min="">
+
+            <fieldset>
+                <legend>Bus Type</legend>
+                <label><input type="radio" name="busType" value="ac" required> AC</label>
+                <label><input type="radio" name="busType" value="non-ac"> Non-AC</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Bus Category</legend>
+                <label><input type="radio" name="busCategory" value="seater" required> Seater</label>
+                <label><input type="radio" name="busCategory" value="sleeper"> Sleeper</label>
+            </fieldset>
+
+            <button type="button" id="search-button">Search</button>
+        </form>
+
+        <div id="bus-list">
+            <h1>Select Your Bus</h1>
+            <div id="buses-container"></div>
+            <div id="cost-summary" style="display: none;">
+                <h2>Total Cost: ₹<span id="total-cost">0</span></h2>
+            </div>
+            <button id="proceed-button" style="display: none;">Proceed</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bus Ticket Booking System</p>
+    </footer>
+
+    <script>
+        function setMinDate() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const minDate = `${yyyy}-${mm}-${dd}`;
+            document.getElementById('date').setAttribute('min', minDate);
+        }
+
+        window.onload = setMinDate;
+
+        // Global array to store bus data
+        const buses = [
+            { id: 1, name: 'Bus 1', logo: 'logo1.png', timings: ['08:00 AM', '12:00 PM', '04:00 PM'] },
+            { id: 2, name: 'Bus 2', logo: 'logo2.png', timings: ['09:00 AM', '01:00 PM', '05:00 PM'] },
+            { id: 3, name: 'Bus 3', logo: 'logo3.png', timings: ['10:00 AM', '02:00 PM', '06:00 PM'] },
+        ];
+
+        const distance = 100; // example distance value
+
+        document.getElementById('search-button').addEventListener('click', function() {
+            const busesContainer = document.getElementById('buses-container');
+            busesContainer.innerHTML = '';
+
+            buses.forEach(bus => {
+                const busDiv = document.createElement('div');
+                busDiv.classList.add('bus-block');
+
+                const busInfo = document.createElement('div');
+                busInfo.classList.add('bus-info');
+
+                const busLogo = document.createElement('img');
+                busLogo.src = bus.logo;
+                busLogo.alt = `${bus.name} Logo`;
+                busLogo.classList.add('bus-logo');
+
+                const busDetails = document.createElement('div');
+                busDetails.innerHTML = `<h3>${bus.name}</h3><div class="timings">${bus.timings.join(', ')}</div>`;
+                busInfo.appendChild(busLogo);
+                busInfo.appendChild(busDetails);
+                busDiv.appendChild(busInfo);
+
+                const price = calculateFare(distance, bus.id);
+                busDiv.innerHTML += `<div>Price: ₹${price}</div>`;
+                busDiv.innerHTML += `<button class="select-button" data-bus-id="${bus.id}" data-bus-price="${price}">Select</button>`;
+                
+                busesContainer.appendChild(busDiv);
+            });
+        });
+
+        function calculateFare(distance, busId) {
+            const baseFare = 10; // Example base fare
+            return baseFare * distance; // Calculate fare based on distance
+        }
+
+        document.getElementById('buses-container').addEventListener('click', function(event) {
+            if (event.target.classList.contains('select-button')) {
+                const selectedBusId = event.target.dataset.busId;
+                const selectedBusPrice = event.target.dataset.busPrice;
+                const origin = document.getElementById('origin').value;
+                const destination = document.getElementById('destination').value;
+                const date = document.getElementById('date').value;
+                const busType = document.querySelector('input[name="busType"]:checked').value;
+                const busCategory = document.querySelector('input[name="busCategory"]:checked').value;
+
+                document.getElementById('total-cost').textContent = selectedBusPrice;
+                document.getElementById('cost-summary').style.display = 'block';
+                document.getElementById('proceed-button').style.display = 'block';
+
+                document.getElementById('proceed-button').onclick = function() {
+                    // Construct the URL with parameters
+                    const seatSelectionURL = `seat-selection.html?origin=${origin}&destination=${destination}&date=${date}&busType=${busType}&busCategory=${busCategory}&busId=${selectedBusId}&busPrice=${selectedBusPrice}`;
+                    window.location.href = seatSelectionURL;
+                };
+            }
+        });
+    </script>
+</body>
+</html>
